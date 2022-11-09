@@ -1,3 +1,11 @@
+This fork is a minor extension of CUDD with a couple of functions useful for the symbolic search planning systems based on SymBA*:
+ - Added specific error handler for node exceeded limits.
+ - Added universal quantification with limit on he number of nodes.
+
+
+
+----------------------------------------------------------
+
 The CUDD package is a package written in C for the manipulation of
 decision diagrams.  It supports binary decision diagrams (BDDs),
 algebraic decision diagrams (ADDs), and Zero-Suppressed BDDs (ZDDs).

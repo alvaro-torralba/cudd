@@ -95,6 +95,7 @@ public:
     DdManager *manager;
     PFC errorHandler;
     PFC timeoutHandler;
+    PFC nodesExceededHandler;
     PFC terminationHandler;
     std::vector<char *> varnames;
     int ref;
@@ -112,6 +113,7 @@ Capsule::Capsule(
 {
     errorHandler = defaultHandler;
     timeoutHandler = defaultHandler;
+    nodesExceededHandler = defaultHandler;
     terminationHandler = defaultHandler;
     manager = Cudd_Init(numVars, numVarsZ, numSlots, cacheSize, maxMemory);
     if (!manager)
@@ -214,6 +216,7 @@ DD::checkReturnValue(
 	    p->errorHandler("Out of memory.");
 	    break;
 	case CUDD_TOO_MANY_NODES:
+            p->nodesExceededHandler("Too many nodes.");
 	    break;
 	case CUDD_MAX_MEM_EXCEEDED:
 	    p->errorHandler("Maximum memory exceeded.");
@@ -262,6 +265,7 @@ DD::checkReturnValue(
 	    p->errorHandler("Out of memory.");
 	    break;
 	case CUDD_TOO_MANY_NODES:
+            p->nodesExceededHandler("Too many nodes.");
 	    break;
 	case CUDD_MAX_MEM_EXCEEDED:
 	    p->errorHandler("Maximum memory exceeded.");
@@ -1299,8 +1303,21 @@ PFC
 Cudd::getTimeoutHandler() const
 {
     return p->timeoutHandler;
+} // Cudd::getTimeoutHandler
 
-} // Cudd::getTimeourHandler
+PFC
+Cudd::setNodesExceededHandler(
+    PFC newHandler) const {
+    PFC oldHandler = p->nodesExceededHandler;
+    p->nodesExceededHandler = newHandler;
+    return oldHandler;
+} // Cudd::setNodesExceededHandler
+
+
+PFC
+Cudd::getNodesExceededHandler() const {
+    return p->nodesExceededHandler;
+} // Cudd::getNodesExceededHandler
 
 
 PFC
@@ -1357,7 +1374,7 @@ Cudd::checkReturnValue(
 	if (Cudd_ReadErrorCode(p->manager) == CUDD_MEMORY_OUT) {
 	    p->errorHandler("Out of memory.");
         } else if (Cudd_ReadErrorCode(p->manager) == CUDD_TOO_MANY_NODES) {
-            p->errorHandler("Too many nodes.");
+            p->nodesExceededHandler("Too many nodes.");
         } else if (Cudd_ReadErrorCode(p->manager) == CUDD_MAX_MEM_EXCEEDED) {
             p->errorHandler("Maximum memory exceeded.");
         } else if (Cudd_ReadErrorCode(p->manager) == CUDD_TIMEOUT_EXPIRED) {
@@ -1391,7 +1408,7 @@ Cudd::checkReturnValue(
 	if (Cudd_ReadErrorCode(p->manager) == CUDD_MEMORY_OUT) {
 	    p->errorHandler("Out of memory.");
         } else if (Cudd_ReadErrorCode(p->manager) == CUDD_TOO_MANY_NODES) {
-            p->errorHandler("Too many nodes.");
+            p->nodesExceededHandler("Too many nodes.");
         } else if (Cudd_ReadErrorCode(p->manager) == CUDD_MAX_MEM_EXCEEDED) {
             p->errorHandler("Maximum memory exceeded.");
         } else if (Cudd_ReadErrorCode(p->manager) == CUDD_TIMEOUT_EXPIRED) {
@@ -3376,7 +3393,11 @@ BDD::UnivAbstract(
   const BDD& cube) const
 {
     DdManager *mgr = checkSameManager(cube);
-    DdNode *result = Cudd_bddUnivAbstract(mgr, node, cube.node);
+    DdNode *result;
+    if (limit == 0)
+        result = Cudd_bddUnivAbstract(mgr, node, cube.node);
+    else
+        result = Cudd_bddUnivAbstractLimit(mgr, node, cube.node, limit);
     checkReturnValue(result);
     return BDD(p, result);
 
