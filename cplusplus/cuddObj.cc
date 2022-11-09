@@ -3390,7 +3390,7 @@ BDD::XorExistAbstract(
 
 BDD
 BDD::UnivAbstract(
-  const BDD& cube) const
+  const BDD& cube, unsigned int limit) const
 {
     DdManager *mgr = checkSameManager(cube);
     DdNode *result;

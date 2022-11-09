@@ -468,6 +468,8 @@ public:
     PFC getHandler(void) const;
     PFC setTimeoutHandler(PFC newHandler) const;
     PFC getTimeoutHandler(void) const;
+    PFC setNodesExceededHandler(PFC newHandler) const;
+    PFC getNodesExceededHandler() const;
     PFC setTerminationHandler(PFC newHandler) const;
     PFC getTerminationHandler(void) const;
     void pushVariableName(std::string s) const;
