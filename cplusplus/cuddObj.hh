@@ -132,10 +132,10 @@ public:
     bool IsOne() const;
     bool IsCube() const;
     BDD FindEssential() const;
-    void PrintTwoLiteralClauses(char ** names = 0, FILE * fp = stdout) const;
+    void PrintTwoLiteralClauses(char ** names = nullptr, FILE * fp = stdout) const;
     BDD ShortestPath(int * weight, int * support, int * length) const;
-    BDD LargestCube(int * length = 0) const;
-    int ShortestLength(int * weight = 0) const;
+    BDD LargestCube(int * length = nullptr) const;
+    int ShortestLength(int * weight = nullptr) const;
     bool EquivDC(const ABDD& G, const ABDD& D) const;
     double * CofMinterm() const;
     void PrintMinterm() const;
@@ -284,8 +284,8 @@ public:
     BDD zddIsop(const BDD& U, ZDD* zdd_I) const;
     BDD Isop(const BDD& U) const;
     ZDD PortToZdd() const;
-    void PrintFactoredForm(char const * const * inames = 0, FILE * fp = stdout) const;
-    std::string FactoredFormString(char const * const * inames = 0) const;
+    void PrintFactoredForm(char const * const * inames = nullptr, FILE * fp = stdout) const;
+    std::string FactoredFormString(char const * const * inames = nullptr) const;
 
 }; // BDD
 
@@ -695,30 +695,30 @@ public:
     void zddSymmProfile(int lower, int upper) const;
     void DumpDot(
       const std::vector<BDD>& nodes, 
-      char const * const * inames = 0, 
-      char const * const * onames = 0, 
+      char const * const * inames = nullptr, 
+      char const * const * onames = nullptr, 
       FILE * fp = stdout) const;
     void DumpDaVinci(
       const std::vector<BDD>& nodes, 
-      char const * const * inames = 0,
-      char const * const * onames = 0,
+      char const * const * inames = nullptr,
+      char const * const * onames = nullptr,
       FILE * fp = stdout) const;
     void DumpBlif(
       const std::vector<BDD>& nodes, 
-      char const * const * inames = 0,
-      char const * const * onames = 0,
-      char * mname = 0,
+      char const * const * inames = nullptr,
+      char const * const * onames = nullptr,
+      char * mname = nullptr,
       FILE * fp = stdout,
       int mv = 0) const;
     void DumpDDcal(
       const std::vector<BDD>& nodes, 
-      char const * const * inames = 0, 
-      char const * const * onames = 0, 
+      char const * const * inames = nullptr, 
+      char const * const * onames = nullptr, 
       FILE * fp = stdout) const;
     void DumpFactoredForm(
       const std::vector<BDD>& nodes, 
-      char const * const * inames = 0,
-      char const * const * onames = 0,
+      char const * const * inames = nullptr,
+      char const * const * onames = nullptr,
       FILE * fp = stdout) const;
     BDD VectorSupport(const std::vector<BDD>& roots) const;
     std::vector<unsigned int> 
@@ -729,20 +729,20 @@ public:
     int VectorSupportSize(const std::vector<BDD>& roots) const;
     void DumpDot(
       const std::vector<ADD>& nodes,
-      char const * const * inames = 0, 
-      char const * const * onames = 0, 
+      char const * const * inames = nullptr, 
+      char const * const * onames = nullptr, 
       FILE * fp = stdout) const;
     void DumpDaVinci(
       const std::vector<ADD>& nodes,
-      char const * const * inames = 0,
-      char const * const * onames = 0,
+      char const * const * inames = nullptr,
+      char const * const * onames = nullptr,
       FILE * fp = stdout) const;
     BDD VectorSupport(const std::vector<ADD>& roots) const;
     int VectorSupportSize(const std::vector<ADD>& roots) const;
     void DumpDot(
       const std::vector<ZDD>& nodes,
-      char const * const * inames = 0,
-      char const * const * onames = 0,
+      char const * const * inames = nullptr,
+      char const * const * onames = nullptr,
       FILE * fp = stdout) const;
     std::string OrderString(void) const;
 
